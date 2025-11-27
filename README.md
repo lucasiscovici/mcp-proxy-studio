@@ -169,10 +169,10 @@ For OpenAPI sources:
 
 ### Core MCP tooling
 
-* **mcp-proxy** (Go)
-* **mcpo**
-* **@ivotoby/openapi-mcp-server**
-* **@modelcontextprotocol/inspector**
+* [TBXark/mcp-proxy](https://github.com/TBXark/mcp-proxy)
+* [mcpo](https://github.com/open-webui/mcpo)
+* [@ivotoby/openapi-mcp-server](https://github.com/ivo-toby/mcp-openapi-server)
+* [@modelcontextprotocol/inspector](https://github.com/modelcontextprotocol/inspector)
 
 ### Backend
 
