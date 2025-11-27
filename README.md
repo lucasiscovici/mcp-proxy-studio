@@ -70,7 +70,7 @@ uvx --from git+https://github.com/lucasiscovici/MCP-Proxy-Studio@main mcps stop
 
 # Force replace container
 npx -y github:lucasiscovici/MCP-Proxy-Studio start --force
-npx -y github:lucasiscovici/MCP-Proxy-Studio update -- force
+npx -y github:lucasiscovici/MCP-Proxy-Studio update --force
 ```
 
 ### Others (uvx)
@@ -81,7 +81,7 @@ npx -y github:lucasiscovici/MCP-Proxy-Studio update -- force
 
 # Force replace container
 uvx --from git+https://github.com/lucasiscovici/MCP-Proxy-Studio@main mcps start --force
-uvx --from git+https://github.com/lucasiscovici/MCP-Proxy-Studio@main mcps update -- force
+uvx --from git+https://github.com/lucasiscovici/MCP-Proxy-Studio@main mcps update --force
 ```
 
 Open: **[http://localhost:8000](http://localhost:8000)**
