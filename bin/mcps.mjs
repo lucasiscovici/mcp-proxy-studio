@@ -88,11 +88,13 @@ Env:
   REF=main|tag|sha   (optional)
 Flags:
   --refresh          Re‑download the repo into `/tmp`
+  --force            Stop/remove existing containers before start
 `);
 }
 
 const cmd = process.argv[2];
 const refresh = process.argv.includes("--refresh");
+const force = process.argv.includes("--force");
 
 if (!cmd || !["start", "status", "stop", "update"].includes(cmd)) {
   usage();
@@ -130,13 +132,19 @@ const base = [
   "-p", PROJECT
 ];
 
-if (cmd === "start") run("docker", [...base, "up", "-d", "--build"]);
+const downArgs = force ? ["down", "-v", "--remove-orphans"] : ["down"];
+
+if (cmd === "start") {
+  if (force) run("docker", [...base, ...downArgs]);
+  run("docker", [...base, "up", "-d", "--build"]);
+}
 if (cmd === "update") {
   rmrf(tmpDir);
   downloadRepo(tmpDir, REF);
   fs.mkdirSync(path.join(tmpDir, "data"), { recursive: true });
   fs.writeFileSync(STATE, JSON.stringify({ repo: REPO, ref: REF, tmpDir }, null, 2), "utf8");
+  if (force) run("docker", [...base, ...downArgs]);
   run("docker", [...base, "up", "-d", "--build"]);
 }
 if (cmd === "status") run("docker", [...base, "ps"]);
-if (cmd === "stop") run("docker", [...base, "down"]);
+if (cmd === "stop") run("docker", [...base, ...downArgs]);
