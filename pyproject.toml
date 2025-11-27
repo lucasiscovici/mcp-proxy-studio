@@ -12,3 +12,6 @@ mcps = "mcp_proxy_studio.bridge:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mcp_proxy_studio"]
+
+[tool.hatch.build]
+include = ["bin/mcps.mjs"]
