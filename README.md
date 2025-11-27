@@ -30,18 +30,18 @@ Open `http://localhost:8002`. Data persists in `./data`.
 - Endpoints:
   - SSE target → `http://<host>:8001/<route>/sse`
   - Streamable target → `http://<host>:8001/<route>/mcp`
-  - OpenAPI target → `http://<host>:8003/openapi/<route>`
+  - OpenAPI target → `http://<host>:8003/<route>`
 
 ## Using the UI
 1. **Create** a flow (command for stdio, URL for SSE/streamable HTTP, base/spec for OpenAPI).  
 2. **Start/Stop** per flow, or **Start all / Stop all** (auto-start freeze disables buttons briefly).  
 3. **Inspector**: top buttons start/stop; per-flow Inspector opens with the right params (`/docs` for OpenAPI).  
 4. **Events**: live feed; enable **Persist events** in Settings to keep history on reload.  
-5. **Settings**: toggles for auto-start flows/Inspector, Inspector host override (`host.docker.internal` default), event persistence.
+5. **Settings**: toggles for auto-start flows/Inspector, event persistence.
 
 ## OpenAPI specifics
 - For an OpenAPI source, the dashboard runs `npx -y @ivotoby/openapi-mcp-server` on a free port, waits for readiness, then points the proxy to it.
-- OpenAPI targets are served by `mcpo` on port `8003` at `/openapi/<route>`; Inspector opens `/docs` for those flows.
+- OpenAPI targets are served by `mcpo` on port `8003` at `/<route>`; Inspector opens `/docs` for those flows.
 
 ## Environment knobs
 - `MCP_PROXY_BIN` (default `mcp-proxy`)
