@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  mcp-dashboard:
+    build: .
+    container_name: mcp-dashboard
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+      - "8003:8003"
+      - "6275:6275"
+      - "6285:6285"
+    environment:
+      - MCP_DASH_DATA=/data/flows.json
+      - MCP_PROXY_BIN=mcp-proxy
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

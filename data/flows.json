@@ -1,0 +1,122 @@
+[
+  {
+    "name": "firecrawl-mcp",
+    "route": "firecrawl-mcp",
+    "description": "firecrawl-mcp",
+    "source_type": "stdio",
+    "target_type": "streamable_http",
+    "sse_url": null,
+    "openapi_base_url": null,
+    "openapi_spec_url": null,
+    "transport": "sse",
+    "server_transport": "streamablehttp",
+    "stateless": false,
+    "auto_start": true,
+    "command": "npx",
+    "args": [
+      "-y",
+      "firecrawl-mcp"
+    ],
+    "env": {
+      "FIRECRAWL_API_URL": "http://host.docker.internal:3002",
+      "FIRECRAWL_API_KEY": "FAKE",
+      "HOST": "0.0.0.0",
+      "HTTP_STREAMABLE_SERVER": "false"
+    },
+    "headers": [],
+    "allow_origins": [],
+    "id": "37e594ab-f348-479f-b948-bacf6f8ed893",
+    "created_at": 1764241006.7870858,
+    "updated_at": 1764244016.5730615,
+    "previous": {
+      "sse_url": null,
+      "transport": null,
+      "command": "npx",
+      "server_transport": "streamablehttp"
+    }
+  },
+  {
+    "name": "langflow",
+    "route": "langflow",
+    "description": "langflow",
+    "source_type": "sse",
+    "target_type": "streamable_http",
+    "sse_url": "http://host.docker.internal:7860/api/v1/mcp/project/7b7def8b-0735-46e0-acb2-d4d1a15bcf95/sse",
+    "openapi_base_url": null,
+    "openapi_spec_url": null,
+    "transport": "sse",
+    "server_transport": "streamablehttp",
+    "stateless": false,
+    "auto_start": true,
+    "command": null,
+    "args": [],
+    "env": {},
+    "headers": [],
+    "allow_origins": [],
+    "id": "62a8b7b2-450f-46e3-82fa-6d81dbcf8e09",
+    "created_at": 1764244909.2259846,
+    "updated_at": 1764244909.2259846,
+    "previous": {
+      "sse_url": null,
+      "transport": null,
+      "command": null,
+      "server_transport": null
+    }
+  },
+  {
+    "name": "firecrawl-openapi",
+    "route": "firecrawl-openapi",
+    "description": "firecrawl-openai",
+    "source_type": "streamable_http",
+    "target_type": "openapi",
+    "sse_url": "http://0.0.0.0:8000/firecrawl-mcp/mcp",
+    "openapi_base_url": null,
+    "openapi_spec_url": null,
+    "transport": "streamablehttp",
+    "server_transport": "sse",
+    "stateless": false,
+    "auto_start": true,
+    "command": null,
+    "args": [],
+    "env": {},
+    "headers": [],
+    "allow_origins": [],
+    "id": "c3225897-f65b-4aaa-ba4b-cd48ffcb6006",
+    "created_at": 1764250074.3501866,
+    "updated_at": 1764256258.5230794,
+    "previous": {
+      "sse_url": "http://0.0.0.0:8000/firecrawl-mcp/mcp",
+      "transport": "streamablehttp",
+      "command": null,
+      "server_transport": null
+    }
+  },
+  {
+    "name": "petstore3-openapi-mcp",
+    "route": "petstore3-openapi-mcp",
+    "description": "petstore3-openapi-mcp",
+    "source_type": "openapi",
+    "target_type": "streamable_http",
+    "sse_url": null,
+    "openapi_base_url": "https://petstore3.swagger.io/api/v3",
+    "openapi_spec_url": "https://petstore3.swagger.io/api/v3/openapi.json",
+    "transport": "streamablehttp",
+    "server_transport": "streamablehttp",
+    "stateless": false,
+    "auto_start": false,
+    "command": null,
+    "args": [],
+    "env": {},
+    "headers": [],
+    "allow_origins": [],
+    "id": "8cd74cf1-98e4-49c0-bb85-e85fc380f71a",
+    "created_at": 1764253388.9061103,
+    "updated_at": 1764257241.5311205,
+    "previous": {
+      "sse_url": null,
+      "transport": "streamablehttp",
+      "command": null,
+      "server_transport": "streamablehttp"
+    }
+  }
+]

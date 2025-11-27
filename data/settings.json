@@ -1,0 +1,6 @@
+{
+  "host": "0.0.0.0",
+  "openapi_port": 8003,
+  "sse_port": 8002,
+  "stream_port": 8001
+}

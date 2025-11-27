@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP Proxy Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="gradient-bg"></div>
+  <header class="hero">
+    <div class="hero__copy">
+      <p class="eyebrow">MCP Proxy Studio</p>
+      <h1>Orchestrate your MCP flows live</h1>
+      <p class="lede">Create, edit, and test MCP proxies without leaving the browser. Events stream in real time.</p>
+      <div class="actions">
+        <!-- <button id="new-flow" class="button button--ghost">Nouveau flux</button> -->
+        <!-- <button id="refresh" class="button button--primary">Rafraîchir</button> -->
+      </div>
+    </div>
+    <div class="hero__stats">
+      <div class="stat-card">
+        <p>Active flows</p>
+        <h3 id="stat-running">0</h3>
+        <span>Running</span>
+      </div>
+      <div class="stat-card">
+        <p>Configured flows</p>
+        <h3 id="stat-total">0</h3>
+        <span>Catalog</span>
+      </div>
+      <!-- <div class="stat-card">
+        <p>Dernier événement</p>
+        <h3 id="stat-last">—</h3>
+        <span>Live</span>
+      </div> -->
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="toolbar toolbar--inline">
+      <div class="toolbar__group">
+        <span class="muted">MCP Inspector</span>
+        <button class="button button--tiny" id="toggle-inspector">Start/Stop</button>
+        <button class="button button--tiny button--ghost" id="open-inspector" disabled>Open</button>
+      </div>
+      <div class="toolbar__group">
+        <button id="open-settings-panel" class="button button--ghost">Settings</button>
+      </div>
+    </div>
+
+    <section class="panel panel--wide">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Flows</p>
+          <h2 class="title-strong">Your MCP proxies</h2>
+        </div>
+        <div class="panel__actions">
+          <input type="search" id="search" placeholder="Search by name/description" class="input--compact">
+          <select id="mode-filter" class="input--compact">
+            <option value="all">All modes</option>
+            <option value="running">Active only</option>
+            <option value="source_stdio">Source stdio</option>
+            <option value="source_sse">Source sse</option>
+            <option value="source_streamable_http">Source streamable_http</option>
+          </select>
+          <button id="start-all" class="button button--primary">Start all</button>
+          <label class="toggle">
+            <input type="checkbox" id="show-only-running">
+            <span>Show only running</span>
+          </label>
+          <button id="toggle-form" class="button button--ghost">Create flow</button>
+        </div>
+      </div>
+      <div id="flow-list" class="flow-list"></div>
+    </section>
+
+    <div class="modal hidden" id="settings-modal">
+      <div class="modal__content">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Settings</p>
+            <h2>Dashboard options</h2>
+          </div>
+          <button id="close-settings" class="button button--ghost">Close</button>
+        </div>
+        <div class="form form--inline">
+          <label class="toggle">
+            <input type="checkbox" id="auto-start">
+            <span>Auto-start on load</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="persist-events">
+            <span>Persist events</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="auto-start-inspector">
+            <span>Auto-start Inspector</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal hidden" id="form-modal">
+      <div class="modal__content">
+        <div class="panel__header">
+          <div>
+            <p class="eyebrow">Configuration</p>
+            <h2 id="form-title">Create a flow</h2>
+          </div>
+          <div class="panel__actions">
+            <button id="reset-form" class="button button--ghost">Reset</button>
+            <button id="close-form" class="button button--ghost">Close</button>
+          </div>
+        </div>
+        <form id="flow-form" class="form">
+          <input type="hidden" name="id" id="flow-id">
+          <label>
+            <span>Route (URL key)</span>
+            <input type="text" id="route" name="route" placeholder="route-name">
+          </label>
+          <label>
+            <span>Name</span>
+            <input type="text" id="name" name="name" required placeholder="fetch-prod, github, etc.">
+          </label>
+          <label>
+            <span>Description</span>
+            <textarea id="description" name="description" rows="2" placeholder="What is this flow for?"></textarea>
+          </label>
+          <label>
+            <span>Source</span>
+            <select id="source_type" name="source_type">
+              <option value="stdio">stdio</option>
+              <option value="sse">sse</option>
+              <option value="streamable_http">streamable_http</option>
+              <option value="openapi">openapi</option>
+            </select>
+          </label>
+          <label>
+            <span>Target / exposed</span>
+          <select id="target_type" name="target_type">
+            <option value="sse">sse</option>
+            <option value="streamable_http">streamable_http</option>
+            <option value="openapi">openapi</option>
+          </select>
+        </label>
+          <div class="grid-2">
+            <label>
+              <span>URL (for sse/streamable_http source)</span>
+              <input type="text" id="sse_url" name="sse_url" placeholder="https://example.io/sse">
+            </label>
+            <label>
+              <span>Headers (one per line: KEY: VALUE)</span>
+              <textarea id="headers" name="headers" rows="2" placeholder="Authorization: Bearer token"></textarea>
+            </label>
+          </div>
+          <div class="grid-2">
+            <label>
+              <span>OpenAPI base URL (openapi source)</span>
+              <input type="text" id="openapi_base_url" name="openapi_base_url" placeholder="https://api.example.com">
+            </label>
+            <label>
+              <span>OpenAPI spec URL</span>
+              <input type="text" id="openapi_spec_url" name="openapi_spec_url" placeholder="https://api.example.com/openapi.json">
+            </label>
+          </div>
+          <label>
+            <span>Stdio command (for stdio source)</span>
+            <input type="text" id="command" name="command" placeholder="uvx mcp-server-fetch">
+          </label>
+          <label>
+            <span>Extra arguments (space separated)</span>
+            <input type="text" id="args" name="args" placeholder="--user-agent=myapp">
+          </label>
+          <label>
+            <span>Env (one per line: KEY=VALUE)</span>
+            <textarea id="env" name="env" rows="2" placeholder="API_KEY=xxx"></textarea>
+          </label>
+          <label>
+            <span>Allowed CORS origins (comma separated)</span>
+            <input type="text" id="allow_origins" name="allow_origins" placeholder="* , https://myapp.com">
+          </label>
+          <button type="submit" class="button button--primary">Save</button>
+        </form>
+      </div>
+    </div>
+
+  <section class="panel panel--form hidden" id="settings-panel">
+    <div class="panel__header">
+      <div>
+        <p class="eyebrow">Settings</p>
+        <h2>Dashboard options</h2>
+      </div>
+      <button id="close-settings" class="button button--ghost">Close</button>
+    </div>
+    <div class="form form--inline">
+      <label class="toggle">
+        <input type="checkbox" id="auto-start">
+        <span>Auto-start on load</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" id="persist-events">
+        <span>Persist events</span>
+      </label>
+        <label class="toggle">
+          <input type="checkbox" id="auto-start-inspector">
+          <span>Auto-start Inspector</span>
+        </label>
+        <label>
+          <span>Inspector host</span>
+          <input type="text" id="inspector-host" placeholder="localhost or host.docker.internal">
+        </label>
+      </div>
+    </section>
+
+    <section class="panel panel--full minimized" id="events-panel">
+      <div class="panel__header">
+        <div>
+          <p class="eyebrow">Live</p>
+          <h2>Live events</h2>
+        </div>
+        <button id="toggle-events" class="button button--ghost">Minimize</button>
+        <button id="clear-feed" class="button button--ghost">Clear</button>
+      </div>
+      <div id="live-feed" class="feed"></div>
+    </section>
+  </main>
+
+  <script type="module" src="/static/main.js"></script>
+  <div id="toast" class="toast hidden"></div>
+  <style>
+    .toast {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      z-index: 9999;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+    .toast.hidden {
+      display: none;
+    }
+    .toast--success {
+      background: #0f9d58;
+    }
+    .toast--error {
+      background: #d93025;
+    }
+    .toast--info {
+      background: #1a73e8;
+    }
+  </style>
+</body>
+</html>
