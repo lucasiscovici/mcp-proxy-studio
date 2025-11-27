@@ -96,8 +96,8 @@ Your config is stored in `mcp-dashboard-data` volume.
 
 ### Resulting Endpoints
 
-* SSE target → `http://<host>:8001/<route>/sse`
 * Streamable target → `http://<host>:8001/<route>/mcp`
+* SSE target → `http://<host>:8002/<route>/sse`
 * OpenAPI target → `http://<host>:8003/<route>`
 
 ---
