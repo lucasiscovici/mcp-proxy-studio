@@ -23,9 +23,14 @@
 - **Flow editor**  
   ![flow-editor](docs/screenshot-flow-editor.png)
 
-- **Live events & Inspector integration**
+- **Live events**
   ![inspector](docs/live-events.png)
+
+- **Inspector integration**
   ![inspector](docs/screenshot-inspector.png)
+
+- **Analytics dashboard**
+  ![analytics_dashboard](docs/analytics_dashboard.png)
 
 ---
 
