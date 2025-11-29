@@ -37,6 +37,7 @@
 - **OpenAPI Bridge** – Auto-spawns `@ivotoby/openapi-mcp-server` when required.
 - **Auto-start system** – Flows & Inspector can boot automatically with safe state handling.
 - **Clean UI, no framework** – All vanilla JS with SSE realtime feedback.
+- **Analytics dashboard** – Live spans ingest with transport-aware tagging (`mcp_sse`, `mcp_http`, `openapi`), tool spans, upstream URL, HTTP method, session id, request/response bodies, and send timestamps for ordering.
 
 ---
 
